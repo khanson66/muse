@@ -21,9 +21,6 @@ import debug from '../utils/debug.js';
 import {getGuildSettings} from '../utils/get-guild-settings.js';
 import {buildPlayingMessageEmbed} from '../utils/build-embed.js';
 import {Setting} from '@prisma/client';
-import {inject} from 'inversify';
-import {TYPES} from '../constants/types';
-import {Config} from '../interfaces/config';
 
 export enum MediaSource {
   Youtube,
@@ -87,21 +84,9 @@ export default class {
   private disconnectTimer: NodeJS.Timeout | null = null;
 
   private readonly channelToSpeakingUsers: Map<string, Set<string>> = new Map();
-  private readonly config: Config;
-  private readonly audioPlayer: AudioPlayer | null = null;
-  private readonly queue: QueuedSong[] = [];
-  private readonly skippedSongs: QueuedSong[] = [];
-  private readonly guildId: Snowflake;
-  private status: STATUS = STATUS.STOPPED;
-  private loopCurrentSong = false;
-  private loopQueue = false;
-  private volume = 1;
-  private current: QueuedSong | null = null;
-  private lastMessageId: Snowflake | null = null;
 
-  constructor(@inject(TYPES.FileCache) fileCache: FileCacheProvider, @inject(TYPES.Config) config: Config, guildId: Snowflake) {
+  constructor(fileCache: FileCacheProvider, guildId: string) {
     this.fileCache = fileCache;
-    this.config = config;
     this.guildId = guildId;
   }
 
@@ -530,13 +515,7 @@ export default class {
 
     if (!ffmpegInput) {
       // Not yet cached, must download
-      const info = await ytdl.getInfo(song.url, {
-        requestOptions: {
-          headers: {
-            cookie: this.config.YOUTUBE_COOKIE,
-          },
-        },
-      });
+      const info = await ytdl.getInfo(song.url);
 
       const formats = info.formats as YTDLVideoFormat[];
 

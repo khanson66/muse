@@ -32,7 +32,6 @@ Muse is written in TypeScript. You can either run Muse with Docker (recommended)
 - `DISCORD_TOKEN` can be acquired [here](https://discordapp.com/developers/applications) by creating a 'New Application', then going to 'Bot'.
 - `SPOTIFY_CLIENT_ID` and `SPOTIFY_CLIENT_SECRET` can be acquired [here](https://developer.spotify.com/dashboard/applications) with 'Create a Client ID' (Optional).
 - `YOUTUBE_API_KEY` can be acquired by [creating a new project](https://console.developers.google.com) in Google's Developer Console, enabling the YouTube API, and creating an API key under credentials.
-- `YOUTUBE_COOKIE` (Optional) can be obtained by logging into YouTube in your browser, then copying the cookie value from your browser's developer tools. This is required to play age-restricted videos.
 
 Muse will log a URL when run. Open this URL in a browser to invite Muse to your server. Muse will DM the server owner after it's added with setup instructions.
 
